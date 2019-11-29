@@ -16,3 +16,5 @@ Cole o seguinte link: https://docs.heltec.cn/download/package_heltec_esp32_index
 Depois de carregar os arquivos da Heltec ESP32 temos que fazer a instalação. Vá em Ferramentas->Placa->Gerenciador de Placas.
 Espere alguns segundos até que o campo de texto esteja habilitado e digite Heltec ESP32. O arquivo de instalação da placa aparecerá, clique em INSTALAR, quando a instalação terminar clique em FECHAR.
 Agora abra Ferramentas->Placa e veja se as placas ESP32 estão listadas na Arduino IDE assim como na imagem abaixo.
+
+![pinout](https://user-images.githubusercontent.com/16996822/69886820-9fab9900-12c2-11ea-9ead-1f64835b67a3.jpg)
