@@ -254,11 +254,12 @@ void loop() {
 <h1>Sexto experimento</h1>
 
 <h2>Usar display LCD</h2>
-<h2> Baixe a biblioteca do I2C LCD https://github.com/johnrickman/LiquidCrystal_I2C.
-Você vai receber uma pasta comprimida .zip, descomprima.
-Depois de descomprimir, você vai na pasta com nome LiquidCrystal_I2C-master e renomeia para LiquidCrystal_I2C.
-Feche a IDE do arduino.
-Copie a biblioteca na pasta de bibliotecas do arduino em algum lugar de seu computador.</h>
+<h2> Baixe a biblioteca do I2C LCD https://github.com/johnrickman/LiquidCrystal_I2C.</h>
+<h>Você vai receber uma pasta comprimida .zip, descomprima.</h>
+<h>Depois de descomprimir, você vai na pasta com nome LiquidCrystal_I2C-master e renomeia para LiquidCrystal_I2C.</h>
+<h>Feche a IDE do arduino.</h>
+<h>Copie a biblioteca na pasta de bibliotecas do arduino em algum lugar de seu computador.</h>
+
 ![I2C-LCD-interfacing-with-ESP3-wiring-diagram](https://user-images.githubusercontent.com/16996822/69888290-c7522f80-12c9-11ea-9253-fe94baf6a8ef.jpg)
 
 <h2>Primeiro use esse código para encontrar o endereço do display</h2>
