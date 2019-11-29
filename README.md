@@ -215,3 +215,132 @@ void loop(){
 }
 
 ```
+<h1>Quinto experimento</h1>
+
+<h2>Ler sensor Ultrassonico</h2>
+
+![esp-sr04](https://user-images.githubusercontent.com/16996822/69888189-5ad73080-12c9-11ea-812c-394b21a03176.png)
+
+
+<h2>Código Simples de leitura</h2>
+
+```
+#define TRIGGER_PIN  5
+#define ECHO_PIN     4
+
+void setup() {
+  Serial.begin (9600);
+  pinMode(TRIGGER_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(BUILTIN_LED, OUTPUT);
+}
+
+void loop() {
+  long duration, distance;
+  digitalWrite(TRIGGER_PIN, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delayMicroseconds(10); // Added this line
+  digitalWrite(TRIGGER_PIN, LOW);
+  duration = pulseIn(ECHO_PIN, HIGH);
+  distance = (duration/2) / 29.1;
+  Serial.print(distance);
+  Serial.println(" cm");
+  delay(1000);
+}
+
+```
+
+<h1>Sexto experimento</h1>
+
+<h2>Usar display LCD</h2>
+<h2> Baixe a biblioteca do I2C LCD https://github.com/johnrickman/LiquidCrystal_I2C.
+Você vai receber uma pasta comprimida .zip, descomprima.
+Depois de descomprimir, você vai na pasta com nome LiquidCrystal_I2C-master e renomeia para LiquidCrystal_I2C.
+Feche a IDE do arduino.
+Copie a biblioteca na pasta de bibliotecas do arduino em algum lugar de seu computador.</h>
+![I2C-LCD-interfacing-with-ESP3-wiring-diagram](https://user-images.githubusercontent.com/16996822/69888290-c7522f80-12c9-11ea-9253-fe94baf6a8ef.jpg)
+
+<h2>Primeiro use esse código para encontrar o endereço do display</h2>
+
+```
+#include <Wire.h> // This library includes I2C communication functions 
+
+void setup() {
+Wire.begin();
+Serial.begin(115200);
+Serial.println("ESP32 scanning for I2C devices");
+}
+
+void loop() {
+byte error_i2c, address_i2c;
+int I2C_Devices;
+Serial.println("Scanning started");
+I2C_Devices = 0;
+for(address_i2c = 1; address_i2c < 127; address_i2c++ )
+{
+Wire.beginTransmission(address_i2c);
+error_i2c = Wire.endTransmission();
+if (error_i2c == 0) {
+Serial.print("I2C device found at address_i2c 0x");
+if (address_i2c<16) 
+{
+Serial.print("0");
+}
+Serial.println(address_i2c,HEX);
+I2C_Devices++;
+}
+else if (error_i2c==4) 
+{
+Serial.print("Unknow error_i2c at address_i2c 0x");
+if (address_i2c<16) 
+{
+Serial.print("0");
+}
+Serial.println(address_i2c,HEX);
+} 
+}
+if (I2C_Devices == 0) 
+{
+Serial.println("No I2C device connected \n");
+}
+else {
+Serial.println("done I2C device searching\n");
+}
+delay(2000); 
+}
+```
+![I2C-LCD-address-with-ESP32](https://user-images.githubusercontent.com/16996822/69888323-041e2680-12ca-11ea-9629-8c57ec05a947.jpg)
+
+<h2>Use o código nesse código</h2>
+
+```
+#include <LiquidCrystal_I2C.h>
+
+int totalColumns = 16;
+int totalRows = 2;
+
+LiquidCrystal_I2C lcd(0x27, totalColumns, totalRows);
+
+void setup(){
+lcd.init(); 
+lcd.backlight(); // use to turn on and turn off LCD back light
+}
+
+void loop()
+{
+lcd.setCursor(0, 0);
+lcd.print("Microcontrollerslab");
+lcd.setCursor(0,1);
+lcd.print("I2C LCD tutorial");
+delay(1000);
+lcd.clear(); 
+lcd.setCursor(0, 0);
+lcd.print("Static text");
+delay(1000);
+lcd.setCursor(0,1);
+lcd.print("I2C LCD tutorial");
+delay(1000);
+lcd.clear(); 
+}
+```
