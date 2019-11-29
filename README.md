@@ -24,6 +24,13 @@ Agora abra Ferramentas->Placa e veja se as placas ESP32 estão listadas na Ardui
 ![pinout](https://user-images.githubusercontent.com/16996822/69886820-9fab9900-12c2-11ea-9ead-1f64835b67a3.jpg)
 
 
+<h1> Introdução a estruturas de programação em C/C++</h>
+<h2>"#include<...>" - Adiciona alguma biblioteca de programação já pronta para seu código, você pode agora usar as funções feitas por alguém em seu código.</h2>
+<h2>"void setup(){ ... }" O "void" segnifica que essa será uma função sem retorno algum, ela só executa e não retorna nada aquele que a chamou, "setup()" é uma função base usada no arduino que é executada apenas uma vez tudo aquilo que está dentro de suas chaves "{}", nela são normalmente feitas as configurações de portas, iniciação de bibliotecas, objetocs, coisas feitas apenas uma vez e no inicio do código.</h2>
+<h2>"void loop(){...}", assim como a anterior ela não retorna nada, diferente de uma outra função como "int contador(){}" que tem como rentorno uma variável "int" - "inteira" para aquele que chamou essa função. No loop é executado milhares de vezes e sem para, normalmente usado para fazer verificações constantes.</h>
+<h2>"pinMode('Qual pino você quer' , 'ele será entrada ou saída)" - Usada parta configurar os GPIOs como entrada - "INPUT" ou saída - "OUTPUT". Ex: pinMode(14,INPUT) - defini o pino 14 como entrada.</h2>
+<h2>digitalWrite( ' pino ', ' o que escrever (HIGH ou LOW)') - digitalRead( 'de qual pino ler')  - basicamente fazer leituras dos pinos e escrita</h2>
+<h2>Serial.begin(9600) - Serial.println("bla") - o primeiro inicia o monitor serial do arduido com a velocidade de 9600 e o outro imprime na tela algo</h2>
 
 <h1> Primeiro experimento com esp32</h1>
 
@@ -262,6 +269,29 @@ void loop() {
 
 ![I2C-LCD-interfacing-with-ESP3-wiring-diagram](https://user-images.githubusercontent.com/16996822/69888290-c7522f80-12c9-11ea-9253-fe94baf6a8ef.jpg)
 
+<table>
+	<thead>
+		<th>ESP32 Development Board</th>
+		<th>I2C LCD</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>GPIO22</td>
+			<td>SCL</td>
+		</tr>
+		<tr>
+			<td>GPIO21</td>
+			<td>SDA</td>
+		</tr>
+		<tr>
+			<td>GROUND</td>
+			<td>GND</td>
+		</tr>
+		<tr>
+			<td>3.3 Volts - VCC</td>
+			<td>Vin</td>
+		</tr>
+</table>
 <h2>Primeiro use esse código para encontrar o endereço do display</h2>
 
 ```
@@ -344,4 +374,64 @@ lcd.print("I2C LCD tutorial");
 delay(1000);
 lcd.clear(); 
 }
+```
+
+<h1>Sétimo experimento</h1>
+
+<h2>Servo motor</h2>
+
+![ESP32-servo-motor-control-with-web-server-in-Arduino-IDE](https://user-images.githubusercontent.com/16996822/69888924-38dfad00-12cd-11ea-9909-aadcbddbb2c8.jpg)
+
+Baixe a biblioteca do servo motor para Arduino IDE https://github.com/RoboticsBrno/ESP32-Arduino-Servo-Library.
+Depois de baixar descomprima o .zip e mude o none de "ESP32-Arduino-Servo-Library-Master" para "ESP32-Arduino-Servo-Library"
+Copie e cole na pasta de bibliotecas do Arduino em algum lugar de seu computador.
+
+<h2>Código Simples</h2>
+
+```
+#include <Servo.h>
+static const int servoPin = 13;  // defines pin number for PWM
+Servo servo1;  // Create object for servo motor
+
+void setup() {
+	Serial.begin(115200);
+	servo1.attach(servoPin);  // start the library 
+}
+
+void loop() {
+	for(int posDegrees = 0; posDegrees <= 180; posDegrees++) {
+		servo1.write(posDegrees);
+		Serial.println(posDegrees);
+		delay(20);
+	}
+	for(int posDegrees = 180; posDegrees >= 0; posDegrees--) {
+		servo1.write(posDegrees);
+		Serial.println(posDegrees);
+		delay(20);
+	}
+}
+
+```
+<h2>Código Para controle usando um Potenciômetro</h2>
+
+```
+#include <Servo.h>
+
+static const int servoPin = 13;
+static const int potentiometerPin = 32;
+
+Servo servo1;
+
+void setup() {
+	Serial.begin(115200);
+	servo1.attach(servoPin);
+}
+
+void loop() {
+	int servoPosition = map(analogRead(potentiometerPin), 0, 4096, 0, 180);
+	servo1.write(servoPosition);
+	Serial.println(servoPosition);
+	delay(20);
+}
+
 ```
